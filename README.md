@@ -6,7 +6,7 @@ On my end? Developing as a developer by toying with readline, cl, and npm.
 On your end? Fun! (And frustration... how often will you actually win a game with this type of implementation?)
 
 ## To install
-Run `npm install -g pokegame`
+Run `npm install -g whos-that-pokemon`
 
 ## To play
 Run `pokegame`
