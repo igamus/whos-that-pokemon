@@ -1,6 +1,6 @@
 {
   "name": "whos-that-pokemon",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Tongue-in-cheek commandline game. Fan-made, non-commercial.",
   "main": "index.js",
   "scripts": {
