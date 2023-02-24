@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const pokemon = require('./pokemon');
 const colors = require('colors');
 const readline = require('readline');
@@ -61,7 +63,7 @@ function printPokeball() {
     console.log("     _________".red);
     console.log("    /         \\ ".red);
     console.log("   /           \\ ".red);
-    console.log("   |-----O-----|".black);
+    console.log("   |-----O-----|".gray);
     console.log("   \\           /".white);
     console.log("    \\_________/ ".white);
 }
