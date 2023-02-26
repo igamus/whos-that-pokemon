@@ -33,7 +33,7 @@ function checkAnswer(answer) {
     if (answer === "Pikachu") return pikachuEvent();
 
     if (answer === mystery) {
-        console.log(`\nThat's right! It is ${mystery}. You got that in only ${guesses.length + 1} guesses! I bet you're a Pokemon master!`);
+        console.log(`\nThat's right! It is ${mystery}. You got that in only ${guesses.length + 1} guesses! ${grade()}`);
         return rl.close();
     }
 
@@ -41,7 +41,35 @@ function checkAnswer(answer) {
 }
 
 function formatAnswer(str) {
-    return str.slice(0,1).toUpperCase() + str.slice(1).toLowerCase();
+    let formatted = str[0].toUpperCase();
+
+    for (let i = 1; i < str.length; i++) {
+        let char = str[i];
+        if (char === ' ') {
+            formatted += ' ' + str[i + 1].toUpperCase();
+            i++;
+        } else {
+            formatted += char.toLowerCase();
+        }
+    }
+
+    return formatted;
+}
+
+function grade() {
+    if (guesses.length <= 10) {
+        return "I bet you're a Pokemon master!";
+    } else if (guesses.length <= 15) {
+        return "You must have filled out your entire Pokedex!"
+    } else if (guesses.length <= 25) {
+        return "You're ready for the big leagues--the Pokemon league!"
+    } else if (guesses.length <= 50) {
+        return "I bet you have almost all of your gym badges!"
+    } else if (guesses.length <= 100) {
+        return "You must be a fierce trainer!"
+    }
+
+    return "I can't believe you're only ten-years-old!";
 }
 
 function pikachuEvent() {
