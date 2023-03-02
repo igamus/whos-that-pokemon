@@ -33,9 +33,9 @@ function selectRegion() {
     return rl.question(`
 Select a region:
 
-${"Kanto".brightRed} | ${"Johto".brightGreen} | ${"Hoenn".brightYellow}
-${"Sinnoh".brightCyan} | ${"Unova".brightBlue} | ${"Kalos".brightRed}
-${"Alola".brightYellow} | ${"Galar".brightMagenta} | ${"Palada".brightGreen}
+Kanto  | Johto | Hoenn
+Sinnoh | Unova | Kalos
+Alola  | Galar | Palada
 
 ... or are you a master in all regions?\n
 ${selectedRegions.length > 0 ? `Selected regions: ${selectedRegions.join(', ')}\n\n`.gray : ''}`, acceptRegions);
@@ -71,7 +71,7 @@ function finalizeRegion(answer) {
 
     if (answer === 'y') return selectRegion();
     else if (answer === 'n') return processPokemon();
-    else return rl.question("\nInput a valid selection.\n(Yes/No)\n", finalizeRegion)
+    else return rl.question(`\nInput a valid selection.\n${"(Yes/No)".gray}\n`, finalizeRegion)
 }
 
 function processPokemon() {
