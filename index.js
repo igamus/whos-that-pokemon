@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const pokemon = require('./pokemon');
+const pokedex = require('./pokemon');
 const colors = require('colors');
 const readline = require('readline');
 
@@ -9,12 +9,80 @@ const rl = readline.createInterface({
     output: process.stdout
 });
 
-const mystery = pokemon[Math.floor(Math.random() * pokemon.length)];
+const selectedRegions = [];
+const validRegions = [
+    'Kanto',
+    'Johto',
+    'Hoenn',
+    'Sinnoh',
+    'Unova',
+    'Kalos',
+    'Alola',
+    'Galar',
+    'Palada'
+];
+
+const pokemon = [];
+let mystery;
+
 const guesses = [];
 
-printWelcome();
+selectRegion();
 
-rl.question("\nWhat do you think? Who's that Pokemon?\n", checkAnswer);
+function selectRegion() {
+    return rl.question(`
+Select a region:
+
+${"Kanto".brightRed} | ${"Johto".brightGreen} | ${"Hoenn".brightYellow}
+${"Sinnoh".brightCyan} | ${"Unova".brightBlue} | ${"Kalos".brightRed}
+${"Alola".brightYellow} | ${"Galar".brightMagenta} | ${"Palada".brightGreen}
+
+... or are you a master in all regions?\n
+${selectedRegions.length > 0 ? `Selected regions: ${selectedRegions.join(', ')}\n\n`.gray : ''}`, acceptRegions);
+}
+
+function acceptRegions(answer) {
+    answer = formatAnswer(answer);
+
+    if (selectedRegions.includes(answer)) {
+        console.log(`\nYou have already selected ${answer}.`);
+        return selectRegion();
+    }
+
+    if (answer.toLowerCase().includes('all')) {
+        for (let region of validRegions) {
+            if (!selectedRegions.includes(region)) selectedRegions.push(region);
+        }
+
+        return processPokemon();
+    }
+
+    if (!validRegions.includes(answer)) {
+        console.log("\nPlease select one valid region (or enter 'all' for all regions).")
+        return selectRegion();
+    }
+
+    selectedRegions.push(answer);
+    return rl.question(`\nYou have selected ${answer}! Would you like to add another region? ${"(Yes/No)".gray}\n`, finalizeRegion);
+}
+
+function finalizeRegion(answer) {
+    answer = answer.slice(0,1).toLowerCase();
+
+    if (answer === 'y') return selectRegion();
+    else if (answer === 'n') return processPokemon();
+    else return rl.question("\nInput a valid selection.\n(Yes/No)\n", finalizeRegion)
+}
+
+function processPokemon() {
+    for (let region of selectedRegions) {
+        pokemon.push(...pokedex[region])
+    }
+
+    mystery = pokemon[Math.floor(Math.random() * pokemon.length)];
+
+    printWelcome();
+}
 
 function checkAnswer(answer) {
     answer = formatAnswer(answer);
@@ -88,23 +156,33 @@ function printGuesses() {
 }
 
 function printPokeball() {
-    console.log("     _________".red);
-    console.log("    /         \\ ".red);
-    console.log("   /           \\ ".red);
+    console.log("     _________".brightRed);
+    console.log("    /         \\ ".brightRed);
+    console.log("   /           \\ ".brightRed);
     console.log("   |-----O-----|".gray);
     console.log("   \\           /".white);
     console.log("    \\_________/ ".white);
 }
 
 function printWelcome(){
-    console.log("\nI choose you to tell me...");
-    console.log("\nWHO'S THAT POKEMON??".cyan);
-    printPokeball();
+    console.log("\nWe're ready! I choose you to tell me...");
+    setTimeout(() => {
+        console.log("\nWHO'S THAT POKEMON??".brightCyan);
+        setTimeout(() => {
+            printPokeball();
+            setTimeout(() => {
+                rl.question("\nWhat do you think? Who's that Pokemon?\n", checkAnswer);
+            }, 500);
+        }, 500);
+    }, 500);
 }
 
 function quitEvent(answer) {
-    if (answer.toLowerCase().includes("tell")) {
+    if (answer.toLowerCase().includes(("tell")) || answer.toLowerCase().includes("help")) {
         console.log("No.");
+        return true;
+    } else if (answer.toLowerCase().includes("quit")) {
+        console.log("Fine.");
         return true;
     }
 
