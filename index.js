@@ -143,11 +143,11 @@ function grade() {
 function pikachuEvent() {
     console.log("\nNot every Pokemon is Pikachu!");
     if (mystery === "Pikachu") {
-        console.log(`Oh, wait, it actually was Pikachu. Congratulations, PokeMaster! You got it in only ${guesses} guesses!`);
+        console.log(`Oh, wait, it actually was Pikachu. Congratulations, PokeMaster! You got it in only ${guesses.length} guesses!`);
         rl.close();
     } else {
         console.log("Try again!");
-        rl.question(`${printGuesses(guesses)}`.gray, checkAnswer);
+        rl.question(`${printGuesses()}`.gray, checkAnswer);
     }
 }
 
